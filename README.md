@@ -1,11 +1,11 @@
-# GraphVisualiser
+# W3 Shear Strength of Soil Calculator
 
 ## Dependencies
 - pyglet 1.4.11
 
 ## How To Run
 1. Run main.py
-2. Specify W3 Shear Strength of Soil Calculator Values (origin, height, radius, graph_accuracy) in console
+2. Specify W3 Shear Strength of Soil Values (origin, height, radius, graph_accuracy) in console
 3. View Graph
 
 ## Graph Controls
