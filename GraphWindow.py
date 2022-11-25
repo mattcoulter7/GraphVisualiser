@@ -69,25 +69,25 @@ class GraphWindow(pyglet.window.Window):
 
     #-----------------------------------Control Functions-----------------------------------#
 
-    def zoom_in(self,x,y):
+    def zoomIn(self,x,y):
         self.h_zoom *= self.zoom_ratio
         self.v_zoom *= self.zoom_ratio
         self.offset[0] = (x - (x - self.offset[0]) * self.zoom_ratio)
         self.offset[1] = (y - (y - self.offset[1]) * self.zoom_ratio)
 
-    def zoom_out(self,x,y):
+    def zoomOut(self,x,y):
         self.h_zoom /= self.zoom_ratio
         self.v_zoom /= self.zoom_ratio
         self.offset[0] = (x - (x - self.offset[0])/self.zoom_ratio)
         self.offset[1] = (y - (y - self.offset[1])/self.zoom_ratio)
 
-    def transform_x(self,pixel = None,point = None):
+    def transformX(self,pixel = None,point = None):
         if pixel is not None:
             return (pixel + self.scaled_left - self.offset[0])/self.h_scale
         elif point is not None:
             return point * self.h_scale - self.scaled_left + self.offset[0]
 
-    def transform_y(self,pixel = None,point = None):
+    def transformY(self,pixel = None,point = None):
         if pixel is not None:
             return (pixel + self.scaled_bottom - self.offset[1])/self.v_scale
         elif point is not None:
@@ -120,7 +120,7 @@ class GraphWindow(pyglet.window.Window):
 
         # Triggers
         if (z > 0):
-            self.zoom_out(self.width/2,self.height/2)
+            self.zoomOut(self.width/2,self.height/2)
         elif (z < 0):
             self.zoomIn(self.width/2,self.height/2)
 
@@ -142,7 +142,7 @@ class GraphWindow(pyglet.window.Window):
                 elif (self.keys[key.LALT] or self.keys[key.RALT]):
                     self.v_zoom /= self.zoom_ratio
                 else:
-                    self.zoom_out(x,y)
+                    self.zoomOut(x,y)
 
     def on_mouse_motion(self,x, y, dx, dy):
         self._mouse_x = x
@@ -161,7 +161,7 @@ class GraphWindow(pyglet.window.Window):
             self.set_mouse_cursor(cursor)
 
     def on_mouse_press(self,x, y, button, modifiers):
-        graphX = self.transform_x(pixel = x)
+        graphX = self.transformX(pixel = x)
         if (button == 2): # Left Click
             for circle in self.plane.circles:
                 graphY = circle.getY(graphX)
@@ -200,7 +200,7 @@ class GraphWindow(pyglet.window.Window):
         bottom_y_pixel = 0
         top_y_pixel = self.height
         origin = [0,0]
-        origin_pixel = [self.transform_x(point = origin[0]),self.transform_y(point = origin[0])]
+        origin_pixel = [self.transformX(point = origin[0]),self.transformY(point = origin[0])]
 
         step_x_max = self.width / self.axes_step
         step_y_max = self.height / self.axes_step
@@ -217,7 +217,7 @@ class GraphWindow(pyglet.window.Window):
         while (x < right_x_pixel):
             # get the graph point
             y = self.offset[1] - self.scaled_bottom
-            graphX = self.transform_x(pixel = x)
+            graphX = self.transformX(pixel = x)
             # draw it
             #shapes.Line(x,y - lineLength,x,y+lineLength,color = (255,255,255), batch = self.batch).draw()
             self.plane.graphWindow.batch.add(2, pyglet.gl.GL_LINES, None, 
@@ -236,7 +236,7 @@ class GraphWindow(pyglet.window.Window):
         while (x > left_x_pixel):
             # get the graph point
             y = self.offset[1] - self.scaled_bottom
-            graphX = self.transform_x(pixel = x)
+            graphX = self.transformX(pixel = x)
             # draw it
             #shapes.Line(x,y - lineLength,x,y+lineLength,color = (255,255,255), batch = self.batch).draw()
             self.plane.graphWindow.batch.add(2, pyglet.gl.GL_LINES, None, 
@@ -256,7 +256,7 @@ class GraphWindow(pyglet.window.Window):
         while (y < top_y_pixel):
             # get the graph point
             x = self.offset[0] - self.scaled_left
-            graphY = self.transform_y(pixel = y)
+            graphY = self.transformY(pixel = y)
             # draw it
             #shapes.Line(x - lineLength,y,x + lineLength,y,color = (255,255,255), batch = self.batch).draw()
             self.plane.graphWindow.batch.add(2, pyglet.gl.GL_LINES, None, 
@@ -275,7 +275,7 @@ class GraphWindow(pyglet.window.Window):
         while (y > bottom_y_pixel):
             # get the graph point
             x = self.offset[0] - self.scaled_left
-            graphY = self.transform_y(pixel = y)
+            graphY = self.transformY(pixel = y)
             # draw it
             #shapes.Line(x - lineLength,y,x + lineLength,y,color = (255,255,255), batch = self.batch).draw()
             self.plane.graphWindow.batch.add(2, pyglet.gl.GL_LINES, None, 
